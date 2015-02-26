@@ -1,7 +1,9 @@
 public class KnightsTour{
     private int maxN;
-    private int[][] board;
-    private int visited = 1;
+    private String[][] board;
+    private String grid = "#";
+    private String pos = "$";
+    private int count = 1;
     private boolean solved = false;
  
     public KnightsTour(){
@@ -10,7 +12,7 @@ public class KnightsTour{
 
     public KnightsTour(int n){
 	maxN = n;
-	board = new int[maxN][maxN];
+	board = new String[maxN][maxN];
     }
 
     public void delay(int n){
@@ -23,7 +25,7 @@ public class KnightsTour{
     public void makeBoard(){
 	for (int i = 0; i < maxN;i++){
 	    for (int j = 0; j < maxN;j++){
-		board[i][j] = 0;
+		board[i][j] = grid;
 	    }
 	}
     }
@@ -32,7 +34,7 @@ public class KnightsTour{
 	String s = "[2J\n";
 	for (int i = 0; i < maxN;i++){
 	    for (int j = 0; j < maxN;j++){
-	        s += String.format("%3d", board[i][j]);
+	        s += String.format("%3s", board[i][j]);
 	    }
 	    s += "\n";
 	}
@@ -42,19 +44,21 @@ public class KnightsTour{
     public void solve(int x, int y){
 	if (x < 0 || x >= maxN ||
 	    y < 0 || y >= maxN ||
-	    board[x][y] > 0 ||
+	    board[x][y].equals(pos) ||
+	    board[x][y].compareTo("0") > 0 ||
 	    solved){
 	    return;
 	}
-	if (visited == maxN * maxN + 1){
+	if (count == maxN * maxN + 1){
 	    System.out.println(this);
 	    solved = true;
 	}
+	board[x][y] = pos;
 	delay(500);
 	System.out.println(this);
 	if (!solved){
-	    board[x][y] = visited;
-	    visited ++;
+	    board[x][y] = "" + count;
+	    count++;
 	}
 	solve(x + 2, y + 1);
 	solve(x + 2, y - 1);
@@ -68,6 +72,7 @@ public class KnightsTour{
 
     public static void main(String[] args){
 	KnightsTour r = new KnightsTour(5);
+	r.makeBoard();
 	System.out.println(r);
         r.solve(3,4);
 	System.out.println(r);
