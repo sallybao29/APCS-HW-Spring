@@ -2,10 +2,11 @@ import java.util.*;
 
 public class Selection{
 
-    public void select(int[] l, int si, int ei){
-	int pivot = l[si];
-	int[] d = new int[l.length];
-
+    public int select(int[] A, int k, int l, int h){
+	int pivot = A[l];
+	int pi = l;
+	
+    
 	//copy elements outside si and ei into new array 
 	for (int a = 0; a < l.length;a++){
 	    if (a < si && a > ei){
