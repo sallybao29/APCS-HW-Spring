@@ -3,42 +3,52 @@ import java.util.*;
 public class Selection{
 
     public int select(int[] A, int k, int l, int h){
-	int pivot = A[l];
-	int pi = l;
-	
-    
-	//copy elements outside si and ei into new array 
-	for (int a = 0; a < l.length;a++){
-	    if (a < si && a > ei){
-		d[a] = l[a];
+	int li = l;
+	int hi = h - 1;
+	int pi = li;
+	int pivot = A[pi];
+	int temp;
+	A[pi] = A[h];
+	A[h] = pivot;
+	pi = h;
+	while (hi > li){
+	    if (A[li] < pivot){
+		li++;
+	    }
+	    else {
+	        temp = A[li];
+		A[li] = A[hi];
+		A[hi] = temp;
+		hi--;
 	    }
 	}
-	//elements between si and ei
-	//less than pivot, add to left side
-	//greater than pivot, add to right side
-	int i = si + 1;
-	int end = ei;
-	while (i <= end){
-	    if (l[i] < pivot){
-		d[si] = l[i];
-		si++;
-	    }
-	    else{
-		d[ei] = l[i];
-		ei--;
-	    }
-	    i++;
+	if (A[li] > pivot){
+	    temp = A[li];
+	    A[li] = A[pi];
+	    A[pi] = temp;
+	    pi = li;
 	}
-	//pivot value goes into sorted location
-	d[si] = pivot;
-
-	//System.out.println(Arrays.toString(l));
-	//System.out.println(Arrays.toString(d));					  
+	else {
+	    temp = A[li + 1];
+	    A[li + 1] = A[pi];
+	    A[pi] = temp;
+	    pi = li + 1;
+	} 
+	System.out.println(Arrays.toString(A));
+	if (k == pi){
+	    return A[pi];
+	}
+	else if (pi < k){
+	    return select(A, k, l, pi - 1);
+	}
+	else{
+	    return select(A, k, pi + 1, h);
+	}   					  
     }
 
     public static void main(String[] args){
 	Selection s = new Selection();
 	int[] test = {15,6,9,18,4,21,2};
-        s.select(test, 0, test.length - 1);
+        System.out.println(s.select(test, 3, 0, test.length - 1));
     }
 }
