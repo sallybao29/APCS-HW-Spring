@@ -23,15 +23,13 @@ public class Selection{
 	    }
 	}
 	if (A[li] > pivot){
-	    temp = A[li];
-	    A[li] = A[pi];
-	    A[pi] = temp;
+	    A[pi] = A[li];
+	    A[li] = pivot;
 	    pi = li;
 	}
 	else {
-	    temp = A[li + 1];
-	    A[li + 1] = A[pi];
-	    A[pi] = temp;
+	    A[pi] = A[li + 1];
+	    A[li + 1] = pivot;
 	    pi = li + 1;
 	} 
 	System.out.println(Arrays.toString(A));
