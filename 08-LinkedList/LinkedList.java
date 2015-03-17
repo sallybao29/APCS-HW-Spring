@@ -1,41 +1,45 @@
 public class LinkedList{
     private Node dummy = new Node("");
-    private Node l = null;
     private int len = 0;
-    dummy.setNext(l);
 
+ 
     public void add(String s){
 	Node tmp = new Node(s);
-	tmp.setNext(l);
-	l = tmp;
+	tmp.setNext(dummy.getNext());
+	dummy.setNext(tmp);
 	len++;
     }
 	
     public Node get(int n){
-	int count = 0;
+	int count = -1;
 	Node tmp;
-	for (tmp = l; tmp != null; tmp = tmp.getNext()){
-	    if (count == n){
-		return tmp;
-	    }
-	    count++;
+	if (n > len - 1 || n < -1){
+	    return null;
 	}
-	return null;
+	else {
+	    tmp = dummy;
+	    while (count < n){
+		tmp = tmp.getNext();
+		count++;
+	    }
+	    return tmp;
+	}
     }
 
     public void add(int index, String s){
-	Node tmp = new Node(s);
-        Node before = find(index - 1); 
-	Node after = before.getNext();
-	tmp.setNext(after);
-	before.setNext(tmp);
-	len++;
+	if (index >= 0 && index < len){
+	    Node tmp = new Node(s);
+	    Node before = get(index - 1); 
+	    tmp.setNext(before.getNext());
+	    before.setNext(tmp);
+	    len++;
+	}
     }
 	
     public String toString(){
 	String s = "";
-	Node tmp;;
-	for (tmp=l ; tmp!=null ; tmp=tmp.getNext()){
+	Node tmp;
+	for (tmp = dummy.getNext() ; tmp != null ; tmp = tmp.getNext()){
 	    s = s + tmp + " --> ";
 	}
 	s = s + "null";
@@ -49,8 +53,9 @@ public class LinkedList{
 	l.add("D");
 	l.add("C");
 	System.out.println(l);
-	System.out.println(l.find(2));
+	System.out.println(l.get(2));
 	l.add(2, "G");
+	l.add(0, "Z");
 	System.out.println(l);
 
     }
