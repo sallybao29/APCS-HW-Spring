@@ -35,6 +35,17 @@ public class LinkedList{
 	    len++;
 	}
     }
+
+    public Node remove(int index){
+	if (index >= 0 && index < len){
+	    Node before = get(index - 1);
+	    Node tmp = before.getNext();
+	    before.setNext(tmp.getNext());
+	    len--;
+	    return tmp;
+	}
+	return null;
+    }
 	
     public String toString(){
 	String s = "";
@@ -56,6 +67,9 @@ public class LinkedList{
 	System.out.println(l.get(2));
 	l.add(2, "G");
 	l.add(0, "Z");
+	System.out.println(l);
+	l.remove(0);
+	l.remove(3);
 	System.out.println(l);
 
     }
