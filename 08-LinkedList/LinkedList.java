@@ -1,16 +1,19 @@
 public class LinkedList{
-    private Node dummy = new Node("");
+    private Node dummy = new Node(-1);
     private int len = 0;
 
- 
-    public void add(String s){
-	Node tmp = new Node(s);
+    public int size(){
+	return len;
+    }
+    
+    public void add(int i){
+	Node tmp = new Node(i);
 	tmp.setNext(dummy.getNext());
 	dummy.setNext(tmp);
 	len++;
     }
 	
-    public Node get(int n){
+    private Node find(int n){
 	int count = -1;
 	Node tmp;
 	if (n > len - 1 || n < -1){
@@ -26,25 +29,43 @@ public class LinkedList{
 	}
     }
 
-    public void add(int index, String s){
+      public int get(int n){
+	  return find(n).getData();
+    }
+
+    public void add(int index, int i){
 	if (index >= 0 && index < len){
-	    Node tmp = new Node(s);
-	    Node before = get(index - 1); 
+	    Node tmp = new Node(i);
+	    Node before = find(index - 1); 
 	    tmp.setNext(before.getNext());
 	    before.setNext(tmp);
 	    len++;
 	}
     }
-
+    /*
     public Node remove(int index){
 	if (index >= 0 && index < len){
-	    Node before = get(index - 1);
+	    Node before = find(index - 1);
 	    Node tmp = before.getNext();
 	    before.setNext(tmp.getNext());
 	    len--;
 	    return tmp;
 	}
-	return null;
+	else{
+	    throw new IndexOutOfBoundsException();
+	}
+    }
+    */
+
+    public boolean remove(int i){
+	Node tmp;
+	for (tmp = dummy; tmp != null; tmp = tmp.getNext()){
+	    if (tmp.getNext() != null && tmp.getNext().getData() == i){
+		tmp.setNext(tmp.getNext().getNext());
+		return true;
+	    }
+	}
+	return false;
     }
 	
     public String toString(){
@@ -59,18 +80,13 @@ public class LinkedList{
 
     public static void main(String[] args){
 	LinkedList l = new LinkedList();
-	l.add("A");
-	l.add("B");
-	l.add("D");
-	l.add("C");
+	l.add(1);
+	l.add(2);
+	l.add(3);
+	l.add(4);
 	System.out.println(l);
-	System.out.println(l.get(2));
-	l.add(2, "G");
-	l.add(0, "Z");
-	System.out.println(l);
-	l.remove(0);
-	l.remove(3);
-	System.out.println(l);
+	System.out.println(l.remove(1));
+	System.out.println(l);      
 
     }
 }
