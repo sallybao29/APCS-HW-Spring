@@ -1,4 +1,4 @@
-public class LinkedList{
+public class LList{
     private Node dummy = new Node(-1);
     private int len = 0;
 
@@ -42,20 +42,6 @@ public class LinkedList{
 	    len++;
 	}
     }
-    /*
-    public Node remove(int index){
-	if (index >= 0 && index < len){
-	    Node before = find(index - 1);
-	    Node tmp = before.getNext();
-	    before.setNext(tmp.getNext());
-	    len--;
-	    return tmp;
-	}
-	else{
-	    throw new IndexOutOfBoundsException();
-	}
-    }
-    */
 
     public boolean remove(int i){
 	Node tmp;
@@ -79,7 +65,7 @@ public class LinkedList{
     }
 
     public static void main(String[] args){
-	LinkedList l = new LinkedList();
+	LList l = new LList();
 	l.add(1);
 	l.add(2);
 	l.add(3);
