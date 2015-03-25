@@ -1,8 +1,8 @@
 public class myQueue<E>{
     private Node<E> head,tail;
 
-    public myQueue<E>(){
-	head = new Node<E>();
+    public myQueue(E data){
+	head = new Node<E>(data);
 	tail = head;
     }
     
@@ -14,7 +14,7 @@ public class myQueue<E>{
 
     public E dequeue(){
 	if (head == null){
-
+	    throw new NullPointerException();
 	}
 	E tmp = head.getData();
 	head = head.getNext();
@@ -26,6 +26,17 @@ public class myQueue<E>{
     }
 
     public E head() {
+	if (head == null){
+	    throw new NullPointerException();
+	}
 	return head.getData();
+    }
+
+    public String toString(){
+	String s = "" + head;
+	for (Node tmp = head.getNext(); tmp!= null; tmp = tmp.getNext()){
+	    s = tmp.getData() + " ---> " + s;
+	}
+	return s;
     }
 }
