@@ -13,7 +13,7 @@ public class myQueue<E>{
     }
 
     public E dequeue(){
-	if (head == null){
+	if (empty()){
 	    throw new NullPointerException();
 	}
 	E tmp = head.getData();
@@ -26,7 +26,7 @@ public class myQueue<E>{
     }
 
     public E head() {
-	if (head == null){
+	if (empty()){
 	    throw new NullPointerException();
 	}
 	return head.getData();
