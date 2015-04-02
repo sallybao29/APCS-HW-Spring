@@ -1,42 +1,51 @@
-public class myQueue<E>{
-    private Node<E> head,tail;
+import java.util.*;
 
-    public myQueue(E data){
-	head = new Node<E>(data);
+public class myQueue{
+    private Node head,tail;
+
+    public myQueue(int x, int y){
+	head = new Node(x, y);
 	tail = head;
     }
     
-    public void enqueue(E data){
-        Node<E> tmp = new Node<E>(data);
+    public void enqueue(int x, int y){
+        Node tmp = new Node(x, y);
 	tail.setNext(tmp);
 	tail = tmp;
     }
 
-    public E dequeue(){
+    public int[] dequeue(){
 	if (empty()){
 	    throw new NullPointerException();
 	}
-	E tmp = head.getData();
+	int[] point = new int[2];
+	point[0] = head.getX();
+	point[1] = head.getY();
 	head = head.getNext();
-	return tmp;
+	return point;
     }
 
     public boolean empty(){
 	return head == null;
     }
 
-    public E head() {
-	if (empty()){
-	    throw new NullPointerException();
-	}
-	return head.getData();
-    }
-
     public String toString(){
 	String s = "" + head;
 	for (Node tmp = head.getNext(); tmp!= null; tmp = tmp.getNext()){
-	    s = tmp.getData() + " ---> " + s;
+	    s = tmp + " ---> " + s;
 	}
 	return s;
     }
+    /*
+    public static void main(String[] args){
+	myQueue q = new myQueue(1,7);
+	q.enqueue(2,4);
+	q.enqueue(2,6);
+	q.enqueue(6,1);
+	q.enqueue(2,4);
+	System.out.println(q);
+	System.out.println(Arrays.toString(q.dequeue()));
+				
+    }
+    */
 }

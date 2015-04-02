@@ -1,41 +1,43 @@
-public class Node<E>{
-    private int X, Y, pX, pY;
-    private Node<E> next;
+public class Node{
+    private int x, y;
+    private Node next, previous;
 
-    public Node(int X, int Y, int pX , int pY){
-	this.X = X;
-	this.Y = Y;
-	this.pX = pX;
-	this.pY = pY;
+    public Node(int x, int y){
+	this.x = x;
+	this.y = y;
 	next = null;
     }
 
     public int getX(){
-	return X;
+	return x;
     }
 
       public int getY(){
-	return Y;
+	return y;
     }
 
-      public int getPX(){
-	return pX;
-    }
-
-      public int getPY(){
-	return pY;
-    }
-
-
-    public void setNext(Node<E> n){
+    public void setNext(Node n){
 	next = n;
     }
 
-    public Node<E> getNext(){
+    public void setPrevious(Node n){
+	previous = n;
+    }
+
+    public Node getNext(){
 	return next;
     }
 
+    public Node getPrevious(){
+	return previous;
+    }
+
     public String toString(){
-	return ""+data;
+	return "[" + x + "," + y + "]";
+    }
+
+    public static void main(String[]args){
+	Node n = new Node(2,5);
+	System.out.println(n);
     }
 }

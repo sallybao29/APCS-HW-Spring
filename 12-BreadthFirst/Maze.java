@@ -3,8 +3,11 @@ import java.util.*;
 
 public class Maze{  
     private char[][] board;
+    private myQueue frontier;
+    private Node current;
     private int maxX;
     private int maxY;
+    private char processed = 'p';
     private char path='#';
     private char wall=' ';
     private char me='z';
@@ -36,9 +39,7 @@ public class Maze{
 		    j++;
 		}
 	}
-	catch (Exception e)
-	    {
-	    }
+	catch (Exception e){}	 
     }
     
     public String toString()
@@ -57,25 +58,11 @@ public class Maze{
       solved - instance variable to indicate we're done
     */
     public void solve(int x, int y){
-	if (board[x][y]==wall ||
-	    board[x][y]==me ||
-	    board[x][y]==visited ||
-	    solved){
-	    return;
-	}
-	if (board[x][y]==exit){
-	    System.out.println(this);
-	    solved = true;
-	}
-	delay(100);
-	System.out.println(this);
-	board[x][y]=me;
-	solve(x+1,y);
-	solve(x-1,y);
-	solve(x,y+1);
-	solve(x,y-1);
-	if (!solved){
-	    board[x][y]=visited;
+	frontier.enqueue(x, y);
+	while (!frontier.empty()){
+	    current = frontier.dequeue();
+	    board[current.getX()][current.getY()] = visited;
+	    
 	}
     }
     public static void main(String[] args){
