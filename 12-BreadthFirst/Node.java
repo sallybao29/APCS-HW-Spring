@@ -6,6 +6,7 @@ public class Node{
 	this.x = x;
 	this.y = y;
 	next = null;
+	previous = null;
     }
 
     public String getData(){
