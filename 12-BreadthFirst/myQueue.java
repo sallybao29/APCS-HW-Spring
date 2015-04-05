@@ -14,15 +14,13 @@ public class myQueue{
 	tail = tmp;
     }
 
-    public int[] dequeue(){
+    public String dequeue(){
 	if (empty()){
 	    throw new NullPointerException();
 	}
-	int[] point = new int[2];
-	point[0] = head.getX();
-	point[1] = head.getY();
-	head = head.getNext();
-	return point;
+	String val = head.getData();
+        head = head.getNext();
+        return val;
     }
 
     public boolean empty(){
