@@ -8,13 +8,9 @@ public class Node{
 	next = null;
     }
 
-    public int getX(){
-	return x;
-    }
-
-      public int getY(){
-	return y;
-    }
+    public String getData(){
+return "" + x + y;
+}
 
     public void setNext(Node n){
 	next = n;
