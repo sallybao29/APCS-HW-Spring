@@ -4,7 +4,7 @@ import java.util.*;
 public class Maze{  
     private char[][] board;
     private myQueue frontier;
-    private Node current;
+    private String current;
     private int maxX;
     private int maxY;
     private char processed = 'p';
@@ -61,7 +61,7 @@ public class Maze{
 	frontier.enqueue(x, y);
 	while (!frontier.empty()){
 	    current = frontier.dequeue();
-	    board[current.getX()][current.getY()] = visited;
+	    board[current.substring(0,1)][current.substring(1,2)] = visited;
 	    
 	}
     }
