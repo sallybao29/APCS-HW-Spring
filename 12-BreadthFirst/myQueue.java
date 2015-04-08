@@ -10,16 +10,25 @@ public class myQueue{
     
     public void enqueue(int x, int y){
         Node tmp = new Node(x, y);
+	if (tail == null){
+	    head = tmp;
+	    tail = tmp;
+	}
+	else {
 	tail.setNext(tmp);
 	tail = tmp;
+	}
     }
 
-    public String dequeue(){
+    public Pnode dequeue(){
 	if (empty()){
-	    throw new NullPointerException();
+	    throw new NoSuchElementException();
 	}
-	String val = head.getData();
+        Pnode val = new Pnode(head.getX(),head.getY());
         head = head.getNext();
+	if (head == null){
+	    tail = head;
+	}
         return val;
     }
 
@@ -34,7 +43,7 @@ public class myQueue{
 	}
 	return s;
     }
-    /*
+  
     public static void main(String[] args){
 	myQueue q = new myQueue(1,7);
 	q.enqueue(2,4);
@@ -42,8 +51,15 @@ public class myQueue{
 	q.enqueue(6,1);
 	q.enqueue(2,4);
 	System.out.println(q);
-	System.out.println(Arrays.toString(q.dequeue()));
+	System.out.println(q.dequeue());
+	System.out.println(q.dequeue());
+	System.out.println(q.dequeue());
+	System.out.println(q.dequeue());
+	System.out.println(q.dequeue());
+	q.enqueue(1,2);
+	q.enqueue(3,9);
+	System.out.println(q);
 				
     }
-    */
+    
 }

@@ -3,8 +3,8 @@ import java.util.*;
 
 public class Maze{  
     private char[][] board;
-    private myQueue frontier;
-    private Node current;
+    private myQueue frontier, steps;
+    private Pnode current;
     private int maxX;
     private int maxY;
     private char processed = 'p';
@@ -21,74 +21,66 @@ public class Maze{
 	} catch (Exception e) {}
     }
     
-    public Maze()
-    {
+    public Maze(){
 	maxX=40;
 	maxY=20;
 	board = new char[maxX][maxY];
+	Scanner sc = null;
 	try {
-	    Scanner sc = new Scanner(new File("maze.dat"));
-	    int j=0;
-	    while (sc.hasNext())
-		{
-		    String line = sc.nextLine();
-		    for (int i=0;i<maxX;i++)
-			{
-			    board[i][j] = line.charAt(i);
-			}
-		    j++;
+	    sc = new Scanner(new File("maze.dat"));
+	    int j = 0;
+	    while (sc.hasNext()){
+		String line = sc.nextLine();
+		for (int i=0;i < line.length();i++){
+		    board[i][j] = line.charAt(i);
 		}
-	}
-	catch (Exception e){}	 
+		j++;
+	    }
+	}catch (Exception e){}	 
     }
     
-    public String toString()
-    {
+    public String toString(){
 	String s = "[2J\n";
-	for (int y=0;y<maxY;y++)
-	    {
-		for (int x=0;x<maxX;x++)
-		    s = s +board[x][y];
-		s=s+"\n";
+	for (int y = 0;y < maxY;y++){
+	    for (int x = 0;x < maxX;x++){
+		s = s + board[x][y];
 	    }
+	    s=s+"\n";
+	}
 	return s;
     }
    
     public void solve(int x, int y){
 	frontier = new myQueue(x, y);
-	while (!frontier.empty(){
-	    String c = frontier.dequeue();
-	    cX = current.substring(0,1);
-	    cY = current.substring(1,2);
-	    if (board[cX][cY] == exit){
-	    	solved = true;
-	    	return;
-	    }
-	    current = new Node(cX, cY);
+	while (!frontier.empty() && solved == false){
+	    current = frontier.dequeue();
+	    int cX = current.getX();
+	    int cY = current.getY();
 	    board[cX][cY] = visited;
+	    outerloop:
 	    for (int dX = -1; dX < 2; dX++){
-	    	for (int dy = -1; dY < 2; dY++){
-	    		try{
-	    			if (board[cX+dX][cY+dY] == path &&
-	    			    board[cX+dX][cY+dY] != visited &&
-	    			    board[cX+dX][cY+dY] != processed){
-	    			    	Node n = new Node(cX+dX, cY+dY);
-	    			    	frontier.enqueue(n);
-	    			    	n.setPrevious(current);
-	    			    	board[cX+dX][cY+dY] = processed;
+	    	for (int dY = -1; dY < 2; dY++){
+		    try{
+			if (board[cX+dX][cY+dY] == exit){
+			    solved = true;
+			    break outerloop;
+			}
+			if (board[cX+dX][cY+dY] == path){
+			    frontier.enqueue(cX+dX, cY+dY);
+			    board[cX+dX][cY+dY] = processed;
+
 	    		
-	    			    }
-	    		}
-	    		catch (IndexOutofBoundsException e){}
+			}
+		    }catch (Exception e){}
 	    	}
-	    }
-	    
+	    }	    
 	}
     }
+
     public static void main(String[] args){
 	Maze m = new Maze();
 	System.out.println(m);
-	m.solve(1,1);
+	m.solve(0,1);
 	System.out.println(m);
     }
 }

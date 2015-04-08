@@ -9,9 +9,13 @@ public class Node{
 	previous = null;
     }
 
-    public String getData(){
-return "" + x + y;
-}
+    public int getX(){
+	return x;
+    }
+
+    public int getY(){
+	return y;
+    }
 
     public void setNext(Node n){
 	next = n;
