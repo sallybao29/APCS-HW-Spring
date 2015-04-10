@@ -7,16 +7,15 @@ public class myQueue{
 	head = new Node(x, y);
 	tail = head;
     }
-    
-    public void enqueue(int x, int y){
-        Node tmp = new Node(x, y);
+
+    public void enqueue(Node n){
 	if (tail == null){
-	    head = tmp;
-	    tail = tmp;
+	    head = n;
+	    tail = n;
 	}
 	else {
-	tail.setNext(tmp);
-	tail = tmp;
+	    tail.setNext(n);
+	    tail = n;
 	}
     }
 
@@ -25,6 +24,7 @@ public class myQueue{
 	    throw new NoSuchElementException();
 	}
         Pnode val = new Pnode(head.getX(),head.getY());
+	val.setPrevious(head.getPrevious());
         head = head.getNext();
 	if (head == null){
 	    tail = head;
@@ -37,29 +37,12 @@ public class myQueue{
     }
 
     public String toString(){
-	String s = "" + head;
-	for (Node tmp = head.getNext(); tmp!= null; tmp = tmp.getNext()){
-	    s = tmp + " ---> " + s;
+	String s = "";
+	for (Node tmp = head; tmp!= null; tmp = tmp.getNext()){
+	    s =  tmp + "<----" + s;
 	}
+	s += "null";
 	return s;
-    }
-  
-    public static void main(String[] args){
-	myQueue q = new myQueue(1,7);
-	q.enqueue(2,4);
-	q.enqueue(2,6);
-	q.enqueue(6,1);
-	q.enqueue(2,4);
-	System.out.println(q);
-	System.out.println(q.dequeue());
-	System.out.println(q.dequeue());
-	System.out.println(q.dequeue());
-	System.out.println(q.dequeue());
-	System.out.println(q.dequeue());
-	q.enqueue(1,2);
-	q.enqueue(3,9);
-	System.out.println(q);
-				
     }
     
 }

@@ -3,8 +3,10 @@ import java.util.*;
 
 public class Maze{  
     private char[][] board;
-    private myQueue frontier, steps;
+    private myQueue frontier;
     private Pnode current;
+    private Node n;
+
     private int maxX;
     private int maxY;
     private char processed = 'p';
@@ -31,7 +33,7 @@ public class Maze{
 	    int j = 0;
 	    while (sc.hasNext()){
 		String line = sc.nextLine();
-		for (int i=0;i < line.length();i++){
+		for (int i = 0;i < line.length();i++){
 		    board[i][j] = line.charAt(i);
 		}
 		j++;
@@ -49,38 +51,50 @@ public class Maze{
 	}
 	return s;
     }
+
+    public void steps(){
+	String ans = "";
+	for (Node tmp = current; tmp != null; tmp = tmp.getPrevious()){
+	    ans = tmp + " ---> " + ans;
+	    board[tmp.getX()][tmp.getY()] = me;
+	}
+	ans += "Exit";
+	System.out.println(ans);
+    }
+
+    public void addNeighbors(int x, int y){
+	try{
+	    n = new Node(x, y);
+	    n.setPrevious(current);
+	    if (board[x][y] == exit){
+		solved = true;
+	    }
+	    if (board[x][y] == path){
+		frontier.enqueue(n);
+		board[x][y] = processed;	    		
+	    }			
+	}catch (Exception e){}
+    }
    
-    public void solve(int x, int y){
+    public void solve(int x, int y){ 
 	frontier = new myQueue(x, y);
 	while (!frontier.empty() && solved == false){
 	    current = frontier.dequeue();
 	    int cX = current.getX();
 	    int cY = current.getY();
 	    board[cX][cY] = visited;
-	    outerloop:
-	    for (int dX = -1; dX < 2; dX++){
-	    	for (int dY = -1; dY < 2; dY++){
-		    try{
-			if (board[cX+dX][cY+dY] == exit){
-			    solved = true;
-			    break outerloop;
-			}
-			if (board[cX+dX][cY+dY] == path){
-			    frontier.enqueue(cX+dX, cY+dY);
-			    board[cX+dX][cY+dY] = processed;
-
-	    		
-			}
-		    }catch (Exception e){}
-	    	}
-	    }	    
+	    addNeighbors(cX-1, cY);
+	    addNeighbors(cX+1, cY);
+	    addNeighbors(cX, cY-1);
+	    addNeighbors(cX, cY+1);
 	}
+	steps();
     }
 
     public static void main(String[] args){
 	Maze m = new Maze();
 	System.out.println(m);
-	m.solve(0,1);
+	m.solve(5,0);
 	System.out.println(m);
     }
 }
