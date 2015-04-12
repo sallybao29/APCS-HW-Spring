@@ -1,9 +1,6 @@
-import java.io.*;
-import java.util.*;
-
-public class Maze{  
+public class Bmaze extends Maze{
+    private stackFrontier frontier;
     private char[][] board;
-    private queueFrontier frontier;
     private Pnode current;
     private Node n;
 
@@ -16,42 +13,11 @@ public class Maze{
     private char exit='$';
     private char visited = '.';
     private boolean solved = false;
-    
-    public void delay(int n){
-	try {
-	    Thread.sleep(n);
-	} catch (Exception e) {}
+        
+    public Bmaze(){
+	super(); 
     }
-    
-    public Maze(){
-	maxX=40;
-	maxY=20;
-	board = new char[maxX][maxY];
-	Scanner sc = null;
-	try {
-	    sc = new Scanner(new File("maze.dat"));
-	    int j = 0;
-	    while (sc.hasNext()){
-		String line = sc.nextLine();
-		for (int i = 0;i < line.length();i++){
-		    board[i][j] = line.charAt(i);
-		}
-		j++;
-	    }
-	}catch (Exception e){}	 
-    }
-    
-    public String toString(){
-	String s = "[2J\n";
-	for (int y = 0;y < maxY;y++){
-	    for (int x = 0;x < maxX;x++){
-		s = s + board[x][y];
-	    }
-	    s=s+"\n";
-	}
-	return s;
-    }
-
+   
     public void steps(){
 	String ans = "";
 	for (Node tmp = current; tmp != null; tmp = tmp.getPrevious()){
@@ -77,7 +43,7 @@ public class Maze{
     }
    
     public void solve(int x, int y){ 
-	frontier = new queueFrontier(x, y);
+	frontier = new stackFrontier(x, y);
 	while (!frontier.empty() && solved == false){
 	    current = frontier.remove();
 	    int cX = current.getX();
@@ -90,9 +56,10 @@ public class Maze{
 	}
 	steps();
     }
+   
 
     public static void main(String[] args){
-	Maze m = new Maze();
+	Bmaze m = new Bmaze();
 	System.out.println(m);
 	m.solve(10,1);
 	System.out.println(m);
