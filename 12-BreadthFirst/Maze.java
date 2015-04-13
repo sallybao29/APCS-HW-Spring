@@ -4,7 +4,7 @@ import java.util.*;
 public class Maze{  
     private char[][] board;
     private Frontier f;
-    private Node n;
+    private Node current;
 
     private int maxX;
     private int maxY;
@@ -51,85 +51,113 @@ public class Maze{
 	return s;
     }
 
-    public void steps(){
-	String ans = "";
-	for (Node tmp = current; tmp != null; tmp = tmp.getPrevious()){
-	    ans = tmp + " ---> " + ans;
-	    board[tmp.getX()][tmp.getY()] = me;
+    /*------------------------ DF Recursive Solver -----------------------*/
+
+    public void solve(int x, int y){
+	if (board[x][y]==wall ||
+	    board[x][y]==me ||
+	    board[x][y]==visited ||
+	    solved){
+	    return;
 	}
-	ans += "Exit";
-	System.out.println(ans);
+
+	if (board[x][y]==exit){
+	    System.out.println(this);
+	    solved = true;
+	}
+	delay(100);
+	System.out.println(this);
+	board[x][y]=me;
+	solve(x+1,y);
+	solve(x-1,y);
+	solve(x,y+1);
+	solve(x,y-1);
+	if (!solved){
+	    board[x][y]=visited;
+	}
     }
 
-    public void addNeighbors(int x, int y){
-	try{
-	    n = new Node(x, y);
-	    n.setPrevious(current);
-	    if (board[x][y] == exit){
-		solved = true;
-	    }
-	    if (board[x][y] == path){
-		frontier.add(n);
-		board[x][y] = processed;	    		
-	    }			
-	}catch (Exception e){}
-    }
-   
-    public void solve(int x, int y){ 
-	f = new Frontier();
-	f.add(x,y);
-	while (!f.empty()){   
-	    delay(100);
-	    System.out.println(this);
-	    current = f.remove();
-	    int cX = current.getX();
-	    int cY = current.getY();
-	    board[cX][cY] = visited;
-	    addNeighbors(cX-1, cY);
-	    addNeighbors(cX+1, cY);
-	    addNeighbors(cX, cY-1);
-	    addNeighbors(cX, cY+1);
-	}
-	//steps();
-    }
+  /*-----------------------------------------------------------------------*/
 
     public void addToFront(int tx, int ty){
 	Node tmp = null;
-	    if (board[tx][ty] == exit || board[tx][ty] == path){
-	    tmp = new Node(tx,ty);
-	    f.add(tmp);
-	}
-    }
-    /*
-    public void bfs(int x, int y, Node){
-	f = new Frontier();
-	f.add(new Node(x,y));
-	while (!f.isEmpty()){
-	    
-	    delay(100);
-	    System.out.println(this);
-	    
-	    Node current = f.remove();
-	    int cx = current.getX();
-	    int cy = current.getY();
-	    
-	    board[cx][cy] = me;
-	    if (board[cx][cy] == exit){
-		break;
+	try{
+	    if (board[tx][ty] == path || board[tx][ty] == exit){
+		tmp = new Node(tx,ty);
+		tmp.setPrevious(current);
+		f.add(tmp);
 	    }
-	    addToFront(cx-1, cy);
-	    addToFront(cx+1, cy);
-	    addToFront(cx, cy-1);
-	    addToFront(cx, cy+1);
-	}
+	} catch(Exception e){}
     }
 
-    */
+
+    public void getPath(){
+	for (Node tmp = current; tmp != null; tmp = tmp.getPrevious()){
+	    board[tmp.getX()][tmp.getY()] = me;
+	}
+	System.out.println(this);
+    }  
+
+  /*------------------------ BF Solver -----------------------*/
+
+    public void bfs(int x, int y){ 
+	f = new Frontier();
+	f.add(new Node(x,y));
+	current = null;
+	while (!f.isEmpty()){
+	    //delay(100);
+	    //System.out.println(this);
+
+	    current = f.remove();
+	    int cX = current.getX();
+	    int cY = current.getY();
+	    if (board[cX][cY] == exit){
+		break;
+	    }
+	    board[cX][cY] = visited;
+
+	    addToFront(cX-1, cY);
+	    addToFront(cX+1, cY);
+	    addToFront(cX, cY-1);
+	    addToFront(cX, cY+1);
+	}   
+	//path   
+        getPath();
+    }
+
+  /*------------------------ DF Solver -----------------------*/
+
+    public void dfs(int x, int y){ 
+	f = new StackFront();
+	f.add(new Node(x,y));
+        current = null;
+	while (!f.isEmpty()){
+	    delay(100);
+	    System.out.println(this);
+
+	    current = f.remove();
+	    int cX = current.getX();
+	    int cY = current.getY();
+	    if (board[cX][cY] == exit){
+		break;
+	    }
+	    board[cX][cY] = visited;
+
+	    addToFront(cX-1, cY);
+	    addToFront(cX+1, cY);
+	    addToFront(cX, cY-1);
+	    addToFront(cX, cY+1);
+	}   
+	//path   
+        getPath();
+    }
+
+  /*-------------------------------- -----------------------*/
 
     public static void main(String[] args){
 	Maze m = new Maze();
 	System.out.println(m);
-	m.bfs(10,1);
+	m.dfs(11,1);
 	System.out.println(m);
     }
 }

@@ -1,11 +1,10 @@
 public class Node{
     private int x, y;
-    private Node next, previous;
+    private Node previous;
 
     public Node(int x, int y){
 	this.x = x;
 	this.y = y;
-	next = null;
 	previous = null;
     }
 
@@ -17,16 +16,8 @@ public class Node{
 	return y;
     }
 
-    public void setNext(Node n){
-	next = n;
-    }
-
     public void setPrevious(Node n){
 	previous = n;
-    }
-
-    public Node getNext(){
-	return next;
     }
 
     public Node getPrevious(){
@@ -37,8 +28,4 @@ public class Node{
 	return "[" + x + "," + y + "]";
     }
 
-    public static void main(String[]args){
-	Node n = new Node(2,5);
-	System.out.println(n);
-    }
 }
