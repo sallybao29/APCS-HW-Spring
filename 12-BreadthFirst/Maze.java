@@ -3,8 +3,7 @@ import java.util.*;
 
 public class Maze{  
     private char[][] board;
-    private queueFrontier frontier;
-    private Pnode current;
+    private Frontier f;
     private Node n;
 
     private int maxX;
@@ -77,9 +76,12 @@ public class Maze{
     }
    
     public void solve(int x, int y){ 
-	frontier = new queueFrontier(x, y);
-	while (!frontier.empty() && solved == false){
-	    current = frontier.remove();
+	f = new Frontier();
+	f.add(x,y);
+	while (!f.empty()){   
+	    delay(100);
+	    System.out.println(this);
+	    current = f.remove();
 	    int cX = current.getX();
 	    int cY = current.getY();
 	    board[cX][cY] = visited;
@@ -88,13 +90,46 @@ public class Maze{
 	    addNeighbors(cX, cY-1);
 	    addNeighbors(cX, cY+1);
 	}
-	steps();
+	//steps();
     }
+
+    public void addToFront(int tx, int ty){
+	Node tmp = null;
+	    if (board[tx][ty] == exit || board[tx][ty] == path){
+	    tmp = new Node(tx,ty);
+	    f.add(tmp);
+	}
+    }
+    /*
+    public void bfs(int x, int y, Node){
+	f = new Frontier();
+	f.add(new Node(x,y));
+	while (!f.isEmpty()){
+	    
+	    delay(100);
+	    System.out.println(this);
+	    
+	    Node current = f.remove();
+	    int cx = current.getX();
+	    int cy = current.getY();
+	    
+	    board[cx][cy] = me;
+	    if (board[cx][cy] == exit){
+		break;
+	    }
+	    addToFront(cx-1, cy);
+	    addToFront(cx+1, cy);
+	    addToFront(cx, cy-1);
+	    addToFront(cx, cy+1);
+	}
+    }
+
+    */
 
     public static void main(String[] args){
 	Maze m = new Maze();
 	System.out.println(m);
-	m.solve(10,1);
+	m.bfs(10,1);
 	System.out.println(m);
     }
 }
