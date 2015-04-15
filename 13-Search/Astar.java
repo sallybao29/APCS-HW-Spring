@@ -1,10 +1,11 @@
 import java.io.*;
 import java.util.*;
 
-public class Maze{  
+public class Astar{  
     private char[][] board;
     private Frontier f;
     private Node current, ex = null;
+    private int stepcount = 1;
 
     private int maxX;
     private int maxY;
@@ -20,7 +21,7 @@ public class Maze{
 	} catch (Exception e) {}
     }
     
-    public Maze(){
+    public Astar(){
 	maxX=40;
 	maxY=20;
 	board = new char[maxX][maxY];
@@ -68,7 +69,8 @@ public class Maze{
 	    if (board[tx][ty] == path || board[tx][ty] == exit){
 		tmp = new Node(tx,ty);
 		tmp.setPrevious(current);
-		tmp.setPriority(findPriority(tmp));
+		tmp.setSteps(stepcount);
+		tmp.setPriority(findPriority(tmp) + tmp.getSteps());
 		f.add(tmp);
 	    }
 	} catch(Exception e){}
@@ -78,19 +80,19 @@ public class Maze{
     public void getPath(){
 	for (Node tmp = current; tmp != null; tmp = tmp.getPrevious()){
 	    board[tmp.getX()][tmp.getY()] = me;
-	    delay(100);
-	    System.out.println(this);
+	    //delay(100);
+	    //System.out.println(this);
 	}
     }  
 
-    public void BestFirst(int x, int y){ 
+    public void astar(int x, int y){ 
 	findExit();
 	f = new Frontier();
 	f.add(new Node(x,y));
         current = null;
 	while (!f.isEmpty()){
-	    delay(100);
-	    System.out.println(this);
+	    //delay(100);
+	    //System.out.println(this);
 
 	    current = f.remove();
 	    int cX = current.getX();
@@ -104,6 +106,7 @@ public class Maze{
 	    addToFront(cX+1, cY);
 	    addToFront(cX, cY-1);
 	    addToFront(cX, cY+1);
+	    stepcount++;
 	}    
         getPath();
     }
@@ -111,9 +114,11 @@ public class Maze{
   /*--------------------------------------------------------*/
 
     public static void main(String[] args){
-	Maze m = new Maze();
-	System.out.println(m);
-	m.BestFirst(5,0);
-	System.out.println(m);
+	Astar a = new Astar();
+	System.out.println(a);
+	a.astar(5,0);
+	System.out.println(a);
     }
 }
+
+
