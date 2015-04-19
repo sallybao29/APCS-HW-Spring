@@ -82,6 +82,7 @@ public class Maze{
 
 		//Astar
 		tmp.setPriority(findPriority(tmp) + current.getSteps());
+		tmp.setSteps(current.getSteps()++);
        
 		//BestFirst
 		//tmp.setPriority(findPriority(tmp));
