@@ -8,8 +8,8 @@ public class Maze{
 
     private int maxX;
     private int maxY;
-    private char path='#';
-    private char wall=' ';
+    private char path=' ';
+    private char wall='#';
     private char me='z';
     private char exit='$';
     private char visited = '.';
@@ -54,24 +54,7 @@ public class Maze{
 	    for (int i = 0; i < maxX; i++)
 		if (board[i][j] == exit){
 		    ex = new Node(i, j);
-		}	
-    }
-
-    public double findPriority(Node n){
-	//return Math.abs(n.getX() - ex.getX()) + Math.abs(n.getY() + ex.getY());
-	return Math.sqrt(Math.pow(n.getX() - ex.getX(), 2) + Math.pow(n.getY() - ex.getY(), 2));
-    }
-
-    public void addToFront(int tx, int ty){
-	Node tmp = null;
-	try{
-	    if (board[tx][ty] == path || board[tx][ty] == exit){
-		tmp = new Node(tx,ty);
-		tmp.setPrevious(current);
-		tmp.setPriority(findPriority(tmp));
-		f.add(tmp);
-	    }
-	} catch(Exception e){}
+		}
     }
 
 
@@ -83,7 +66,32 @@ public class Maze{
 	}
     }  
 
-    public void BestFirst(int x, int y){ 
+    public double findPriority(Node n){
+	//Manhattan Distance
+	return Math.abs(n.getX() - ex.getX()) + Math.abs(n.getY() + ex.getY());
+	//Euclidean Distance
+	//return Math.sqrt(Math.pow(n.getX() - ex.getX(), 2) + Math.pow(n.getY() - ex.getY(), 2));
+    }
+
+    public void addToFront(int tx, int ty){
+	Node tmp = null;
+	try{
+	    if (board[tx][ty] == path || board[tx][ty] == exit){
+		tmp = new Node(tx,ty);
+		tmp.setPrevious(current);
+
+		//Astar
+		tmp.setPriority(findPriority(tmp) + current.getSteps());
+       
+		//BestFirst
+		//tmp.setPriority(findPriority(tmp));
+		f.add(tmp);
+	    }
+	} catch(Exception e){}
+    }
+   
+ 
+    public void solve(int x, int y){ 
 	findExit();
 	f = new Frontier();
 	f.add(new Node(x,y));
@@ -108,12 +116,13 @@ public class Maze{
         getPath();
     }
 
+
   /*--------------------------------------------------------*/
 
     public static void main(String[] args){
 	Maze m = new Maze();
 	System.out.println(m);
-	m.BestFirst(5,0);
+	m.solve(2,2);
 	System.out.println(m);
     }
 }
