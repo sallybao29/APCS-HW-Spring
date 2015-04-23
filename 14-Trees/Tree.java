@@ -1,8 +1,8 @@
 public class Tree{
-    private Node T = null, T2 = null;
+    private Node r, T2;
 
-    public Node search(Node T, Integer i){
-	while (T! = null){
+    public Node search(Node T, int i){
+	while (T != null){
 	    T2 = T;
 	    int c = T.getData().compareTo(i);
 	    if (c == 0){
@@ -15,5 +15,23 @@ public class Tree{
 		T = T.getLeft();
 	    }
 	}
+	return T;
     }
+
+    public void insert(Node T, int i){
+	Node n = new Node(i);
+	if (T == null){
+	    T = n;
+	    return;
+	}
+	T = r;
+	T = search(T, i);
+	if (T2.getRight() == null){
+	    T2.setRight(n);
+	}
+	else{
+	    T2.setLeft(n);
+	}
+    }
+
 }
