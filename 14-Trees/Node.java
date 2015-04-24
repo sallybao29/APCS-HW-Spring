@@ -8,6 +8,10 @@ public class Node{
 	left = null;
 	right = null;
     }
+
+    public String toString(){
+	return "" + data;
+    }
     
     public Node(Integer i){
 	this();
