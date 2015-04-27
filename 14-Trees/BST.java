@@ -1,95 +1,111 @@
+import java.util.*;
+
 public class BST{
-    private Node r, t2;
+    private Node r;
 
     public BST(Node n){
 	r = n;
     }
 
-    public void print(Node n){
+    public BST(){
+	r = null;
+    }
+
+    public String traverse(Node n){
+	String ans = "";
 	if (n == null){
-	    System.out.print(" ");
-	    return;
+	    return "";
 	}
 	else {
-	    System.out.println(n);
+	    String left = traverse(n.getLeft());
+	    String right = traverse(n.getRight());
+	    ans += left.getData() + " " + right.getData();
+	    return traverse(left) + traverse(right);
 	}
-	print(n.getLeft());
-	print(n.getRight());
     }
 
-    public Node search(Node t, int i){
-	Node tmp = t;
-	while (tmp != null){
-	    t2 = tmp;
-	    int c = tmp.getData().compareTo(i);
+    public String toString(){
+	return traverse(r);
+    }
+
+    /*
+    public Node search(int i){
+	Node t = r;
+	while (t != null){
+	    Node t2 = t;
+	    int c = t.getData().compareTo(i);
 	    if (c == 0){
-		return tmp;
+		return t;
 	    }
 	    else if (c > 0){
-		tmp = tmp.getRight();
+		t = t.getRight();
 	    }
 	    else{
-		tmp = tmp.getLeft();
+		t = t.getLeft();
 	    }
 	}
-	return tmp;
+	return t;
     }
+    */
 
-
-    public void insert(Node t, int i){
+    public void insert(int i){
 	Node n = new Node(i);
-	if (t == null){
-	    t = n;
+	Node t2 = null;
+	Node t = r;
+	if (r == null){
+	    r = n;
 	    return;
 	}
-	Node tmp = search(t, i);
-	if (t2.getRight() == null || t2.getLeft() == null){
-	    if (t2.getRight() == null){
-		t2.setLeft(n);
+	while (t != null){
+	    t2 = t;
+	    int c = t.getData().compareTo(i);
+	    if (c == 0){
+		return;
 	    }
-	    else{
-		t2.setRight(n);
-	    }
-	}
-        else {
-	    if  (i > t.getData()){
-		t2.setRight(n);
+	    else if (c > 0){
+		t = t.getRight();
 	    }
 	    else {
-		t2.setLeft(n);
+		t = t.getLeft();
 	    }
 	}
+	if (i > t2.getData()){
+	    t2.setRight(n);
+	}
+	else{
+	    t2.setLeft(n);
+	}	
     }
 
 
     /*------------------ Recursive -----------------------------*/
-    /*
+ 
     public Node search(Node t, int i){
-	Node tmp = t;
-	t2 = tmp;
-	int c = tmp.getData().compareTo(i);
-	if (c == null || c == 0){
-	    return tmp;
-	}
-	else if (c > 0){
-	    return search(tmp.getRight(), i);
-	}
-	else{
-	    return search(tmp.getLeft(), i);
-	}
+	if (t == null || t.getData() == i)
+	    return t;
+	else if (t.getData() < i)
+	    return search(t.getRight(), i);
+	else
+	    return search(t.getLeft(), i);
     }
-    */
+
+    public String search(int i){
+	String ans = "" + search(r, i);
+	if (ans == null)
+	    return "Not Found";
+	else
+	    return ans;
+    }
+   
 
     public static void main(String[] args){
-	Node r = new Node(20);
-	BST b = new BST(r);
-	b.insert(r,10);
-	b.insert(r,40);
-	b.insert(r,7);
-	b.insert(r,16);
-	b.insert(r, 25);
-	b.insert(r,70);
-	b.print(r);
+	BST b = new BST(new Node(20));
+	Random r = new Random();
+	for (int i = 0; i < 10; i++){
+	    int a = r.nextInt(100);
+	    b.insert(a);
+	}
+	System.out.println(b);
   
     }
 
