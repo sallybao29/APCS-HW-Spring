@@ -14,13 +14,16 @@ public class BST{
     public String traverse(Node n){
 	String ans = "";
 	if (n == null){
-	    return "";
+	    ans += " ";
+	    return ans;
 	}
 	else {
-	    String left = traverse(n.getLeft());
-	    String right = traverse(n.getRight());
-	    ans += left.getData() + " " + right.getData();
-	    return traverse(left) + traverse(right);
+	    ans += n.getData() + "\n";
+	    Node left = n.getLeft();
+	    Node right = n.getRight();
+	    ans += traverse(left) + " " + traverse(right);
+	    return ans;
+
 	}
     }
 
@@ -33,16 +36,12 @@ public class BST{
 	Node t = r;
 	while (t != null){
 	    Node t2 = t;
-	    int c = t.getData().compareTo(i);
-	    if (c == 0){
+	    if (t.getData() == i)
 		return t;
-	    }
-	    else if (c > 0){
+	    else if (t.getData() < i)
 		t = t.getRight();
-	    }
-	    else{
+	    else
 		t = t.getLeft();
-	    }
 	}
 	return t;
     }
@@ -58,23 +57,17 @@ public class BST{
 	}
 	while (t != null){
 	    t2 = t;
-	    int c = t.getData().compareTo(i);
-	    if (c == 0){
+	    if (t.getData() == i)
 		return;
-	    }
-	    else if (c > 0){
+	    else if (t.getData() < i)
 		t = t.getRight();
-	    }
-	    else {
+	    else
 		t = t.getLeft();
-	    }
 	}
-	if (i > t2.getData()){
+	if (i > t2.getData())
 	    t2.setRight(n);
-	}
-	else{
-	    t2.setLeft(n);
-	}	
+	else
+	    t2.setLeft(n);	
     }
 
 
@@ -101,10 +94,19 @@ public class BST{
     public static void main(String[] args){
 	BST b = new BST(new Node(20));
 	Random r = new Random();
-	for (int i = 0; i < 10; i++){
+	/*for (int i = 0; i < 10; i++){
 	    int a = r.nextInt(100);
 	    b.insert(a);
 	}
+	*/
+	b.insert(10);
+	b.insert(40);
+	b.insert(7);
+	b.insert(13);
+	b.insert(25);
+	b.insert(70);
+	b.insert(3);
+	b.insert(16);
 	System.out.println(b);
   
     }
