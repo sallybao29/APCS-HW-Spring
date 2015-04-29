@@ -70,7 +70,7 @@ public class BST{
 	while (t != null){
 	    t2 = t;
 	    if (t.getData() == i)
-		return;
+		break;
 	    else if (t.getData() < i)
 		t = t.getRight();
 	    else
@@ -118,11 +118,12 @@ public class BST{
     public static void main(String[] args){
 	BST b = new BST(new Node(20));
 	Random r = new Random();
+	/*
 	for (int i = 0; i < 10; i++){
 	    int a = r.nextInt(100);
 	    b.insert(a);
 	}
-	/*
+	*/
 	b.insert(10);
 	b.insert(40);
 	b.insert(7);
@@ -131,7 +132,8 @@ public class BST{
 	b.insert(70);
 	b.insert(3);
 	b.insert(16);
-	*/
+	System.out.println(b);
+	b.remove(13);
 	System.out.println(b);
   
     }
