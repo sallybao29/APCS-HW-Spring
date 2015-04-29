@@ -30,7 +30,6 @@ public class BST{
     public Node search(int i){
 	Node t = r;
 	while (t != null){
-	    Node t2 = t;
 	    if (t.getData() == i)
 		return t;
 	    else if (t.getData() < i)
@@ -68,25 +67,37 @@ public class BST{
     public void remove(Node t, int i){
 	Node t2 = null;
 	while (t != null){
-	    t2 = t;
 	    if (t.getData() == i)
 		break;
-	    else if (t.getData() < i)
+	    else if (t.getData() < i){
+		t2 = t;
 		t = t.getRight();
-	    else
+	    }
+	    else{
+		t2 = t;
 		t = t.getLeft();
+	    }
 	}
-	if (t.getLeft() == null)
-	    t2.setRight(t.getRight());
-	else if (t2.getRight() == null)
-	    t2.setLeft(t.getLeft());
+	if (t.getLeft() == null){
+	    if (t2.getLeft() == t)
+		t2.setLeft(t.getRight());
+	    else 
+		t2.setRight(t.getRight());
+	}
+	else if (t.getRight() == null){
+	    if (t2.getLeft() == t)
+		t2.setLeft(t.getLeft());		
+	    else 
+		t2.setRight(t.getLeft());		
+	}
 	else{
 	    Node l = t.getLeft();
 	    while (l.getRight() != null){
 		l = l.getRight();
 	    }
-	    t.setData(l.getData());
-	    remove(t.getLeft(), l.getData());
+	    int data = l.getData();
+	    remove(t, l.getData());
+	    t.setData(data);
 	}
     }
 
@@ -116,7 +127,7 @@ public class BST{
    
 
     public static void main(String[] args){
-	BST b = new BST(new Node(20));
+	BST b = new BST();
 	Random r = new Random();
 	/*
 	for (int i = 0; i < 10; i++){
@@ -124,6 +135,7 @@ public class BST{
 	    b.insert(a);
 	}
 	*/
+	b.insert(20);
 	b.insert(10);
 	b.insert(40);
 	b.insert(7);
@@ -132,8 +144,11 @@ public class BST{
 	b.insert(70);
 	b.insert(3);
 	b.insert(16);
+	b.insert(8);
+	b.insert(62);
 	System.out.println(b);
 	b.remove(13);
+	b.remove(10);
 	System.out.println(b);
   
     }
