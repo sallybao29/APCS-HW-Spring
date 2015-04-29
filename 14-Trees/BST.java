@@ -12,18 +12,13 @@ public class BST{
     }
 
     public String traverse(Node n){
-	String ans = "";
 	if (n == null){
-	    ans += " ";
-	    return ans;
+	    return "";
 	}
 	else {
-	    ans += n.getData() + "\n";
 	    Node left = n.getLeft();
 	    Node right = n.getRight();
-	    ans += traverse(left) + " " + traverse(right);
-	    return ans;
-
+	    return traverse(left) + n.getData() + " " + traverse(right);
 	}
     }
 
@@ -70,6 +65,35 @@ public class BST{
 	    t2.setLeft(n);	
     }
 
+    public void remove(Node t, int i){
+	Node t2 = null;
+	while (t != null){
+	    t2 = t;
+	    if (t.getData() == i)
+		return;
+	    else if (t.getData() < i)
+		t = t.getRight();
+	    else
+		t = t.getLeft();
+	}
+	if (t.getLeft() == null)
+	    t2.setRight(t.getRight());
+	else if (t2.getRight() == null)
+	    t2.setLeft(t.getLeft());
+	else{
+	    Node l = t.getLeft();
+	    while (l.getRight() != null){
+		l = l.getRight();
+	    }
+	    t.setData(l.getData());
+	    remove(t.getLeft(), l.getData());
+	}
+    }
+
+    public void remove(int i){
+	remove(r, i);
+    }
+
 
     /*------------------ Recursive -----------------------------*/
  
@@ -94,11 +118,11 @@ public class BST{
     public static void main(String[] args){
 	BST b = new BST(new Node(20));
 	Random r = new Random();
-	/*for (int i = 0; i < 10; i++){
+	for (int i = 0; i < 10; i++){
 	    int a = r.nextInt(100);
 	    b.insert(a);
 	}
-	*/
+	/*
 	b.insert(10);
 	b.insert(40);
 	b.insert(7);
@@ -107,6 +131,7 @@ public class BST{
 	b.insert(70);
 	b.insert(3);
 	b.insert(16);
+	*/
 	System.out.println(b);
   
     }
