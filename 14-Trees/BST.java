@@ -66,17 +66,12 @@ public class BST{
 
     public void remove(Node t, int i){
 	Node t2 = null;
-	while (t != null){
-	    if (t.getData() == i)
-		break;
-	    else if (t.getData() < i){
-		t2 = t;
+	while (t.getData() != i){
+	    t2 = t;
+	    if (t.getData() < i)
 		t = t.getRight();
-	    }
-	    else{
-		t2 = t;
+	    else
 		t = t.getLeft();
-	    }
 	}
 	if (t.getLeft() == null){
 	    if (t2.getLeft() == t)
@@ -148,7 +143,7 @@ public class BST{
 	b.insert(62);
 	System.out.println(b);
 	b.remove(13);
-	b.remove(10);
+	b.remove(40);
 	System.out.println(b);
   
     }
