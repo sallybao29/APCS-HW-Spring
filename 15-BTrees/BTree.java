@@ -163,12 +163,12 @@ public class BTree{
     public int height(Node t){
 	if (t == null)
 	    return 0;
-	int a = height(t.getRight());
-	int b = height(t.getLeft());
-	if (a > b)
-	    return 1 + a;
+	int right = height(t.getRight());
+	int left = height(t.getLeft());
+	if (right > left)
+	    return 1 + right;
 	else 
-	    return 1 + b;
+	    return 1 + left;
     }
     
 
@@ -187,6 +187,16 @@ public class BTree{
 	}    
 	splitDupes(t.getRight());
 	splitDupes(t.getLeft());
+    }
+
+    public int diameter(Node t){
+	int p, p2, p3;
+	if (t == null)
+	    return 0;
+	p = height(t.getLeft()) + height(t.getRight()) + 2;
+	p2 = diameter(t.getLeft());
+	p3 = diameter(t.getRight());
+	return Math.max(p, Math.max(p2, p3));
     }
 
 
@@ -215,6 +225,7 @@ public class BTree{
 	System.out.println(b.numNodes(n));
 	System.out.println(b.maxValue(n));
 	System.out.println(b.height(n));
+	System.out.println(b.diameter(n));
 
   
     }
