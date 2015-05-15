@@ -1,5 +1,8 @@
 import java.util.*;
 
+//change to arraylist
+//write sift up, sort, and insert
+
 public class MinHeap{
     private int[] heap;
     private int root, last;
