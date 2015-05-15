@@ -1,9 +1,9 @@
-public class Node{
-    private Integer data;
-    private Node left, right;
+public class Node<E>{
+    private E data;
+    private Node<E> left, right;
 
 
-    public Node(){
+    public Node<E>(){
 	data = null;
 	left = null;
 	right = null;
@@ -13,16 +13,16 @@ public class Node{
 	return "" + data;
     }
     
-    public Node(Integer i){
+    public Node<E>(E i){
 	this();
 	data = i;
     }
 
-    public Integer getData(){
+    public E getData(){
 	return data;
     }
 
-    public void setData(Integer i){
+    public void setData(E i){
 	data = i;
     }
 
